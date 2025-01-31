@@ -101,7 +101,7 @@ def generate_mongo_documents(n):
                     "lastname": kaeufer_nachname,
                     "company": kaeufer_firma,
                 },
-                "kseller": {
+                "seller": {
                     "firstname": verkaeufer_vorname,
                     "lastname": verkaeufer_nachname,
                     "company": verkaeufer_firma,
