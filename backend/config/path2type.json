@@ -1,0 +1,16 @@
+{
+    "filepath": "str",
+    "category": "str",
+    "metadata.infos.receiptid": "str",
+    "metadata.infos.receiptdate": "datetime",
+    "metadata.category.maincategory": "str",
+    "metadata.category.subcategory": "str",
+    "metadata.buyer.firstname": "str",
+    "metadata.buyer.lastname": "str",
+    "metadata.buyer.company": "str",
+    "metadata.seller.firstname": "str",
+    "metadata.seller.lastname": "str",
+    "metadata.seller.company": "str",
+    "metadata.price.price": "float",
+    "summary": "str"
+}
