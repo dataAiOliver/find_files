@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response, FileResponse
 import logging, json, traceback
@@ -10,6 +10,21 @@ from pydantic import BaseModel
 from common.mongodb import get_mongo_collection, get_filter2query
 from langchain_openai import AzureChatOpenAI
 from langchain_ollama.llms import OllamaLLM
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv("config.env")
+
+BACKEND_HOST = os.getenv('BACKEND_HOST')
+BACKEND_PORT = int(os.getenv('BACKEND_PORT'))
+FRONTEND_HOST = os.getenv('FRONTEND_HOST')
+FRONTEND_PORT = int(os.getenv('FRONTEND_PORT'))
+
+# Construct CORS_ORIGIN from frontend host and port
+CORS_ORIGIN = f'http://{FRONTEND_HOST}:{FRONTEND_PORT}'
+
+MONGODB_COLLECTION_NAME = os.getenv('MONGODB_COLLECTION_NAME')
+DUMMY_FILE = os.getenv('DUMMY_FILE')
 
 # Configure logging
 logging.basicConfig(
@@ -22,7 +37,7 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[CORS_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,7 +48,7 @@ max_files = 1000
 with open("config/path2type.json", "r") as f:
     path2type = json.load(f)
 collection = get_mongo_collection(
-    os.getenv("MONGODB_COLLECTION_NAME"), drop_collection=False
+    MONGODB_COLLECTION_NAME, drop_collection=False
 )
 
 
@@ -54,13 +69,16 @@ async def get_files(request: Request):
         logger.info("No filter provided, returning top 10 files.")
         results = list(collection.find().limit(max_files))
         logger.info(f"results: {results[0]}")
+        logger.info(f"results len: {len(results)}")
         return results
 
     try:
         query = get_filter2query(filter_dict, path2type)
         logger.info(f"MongoDB query: {query}")
         results = list(collection.find(query))
+        if len(results) == 0: return []
         logger.info(f"results: {results[0]}")
+        logger.info(f"results len: {len(results)}")
         return results
 
     except Exception as e:
@@ -130,7 +148,7 @@ class ChatMessage(BaseModel):
     fileIds: list[str]
     chatHistory: list[dict]
 
-fn_dummyfile = os.getenv("DUMMY_FILE")
+fn_dummyfile = DUMMY_FILE
 logger.info(f"READ FILE {fn_dummyfile}")
 with open(
     "/Users/oliverkohn/repositories/datasphereAI/find_files/backend/data/dummyfile.txt",

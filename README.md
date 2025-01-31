@@ -1,69 +1,92 @@
-# bugs
+# File Search and Filter Application
 
-- when adding all file sin cusotm view it adds same fiel multiple times
+A modern web application for efficient file searching and filtering using React and FastAPI.
 
-# Datei-Such- und Filterprogramm
-
-Eine moderne Webanwendung zur effizienten Dateisuche und -filterung mit React und FastAPI.
-
-## Projektstruktur
+## Project Structure
 
 ```
 .
 ├── backend/
-│   └── main.py         # FastAPI Backend
+│   ├── main.py         # FastAPI Backend
+│   ├── config.env      # Backend configuration
+│   └── data/           # Data files
 ├── frontend/
 │   ├── src/
-│   │   ├── components/ # React Komponenten
-│   │   ├── App.js      # Hauptanwendung
-│   │   └── theme.js    # MUI Theme Konfiguration
-│   └── package.json    # Frontend Abhängigkeiten
-└── requirements.txt    # Backend Abhängigkeiten
+│   │   ├── components/ # React Components
+│   │   ├── App.js      # Main Application
+│   │   └── theme.js    # MUI Theme Configuration
+│   └── package.json    # Frontend Dependencies
+├── startbackend.sh     # Backend start script
+├── startfrontend.sh    # Frontend start script
+└── requirements.txt    # Backend Dependencies
+```
+
+## Configuration
+
+The application uses environment variables for configuration. These are stored in `backend/config.env`:
+
+```env
+# MongoDB Configuration
+MONGODB_HOST=localhost
+MONGODB_PORT=1003
+MONGODB_DB_NAME=dummydb
+MONGODB_COLLECTION_NAME=dummycollection
+
+# Backend Configuration
+BACKEND_HOST=localhost
+BACKEND_PORT=2033
+
+# Frontend Configuration
+FRONTEND_HOST=localhost
+FRONTEND_PORT=2034
 ```
 
 ## Installation
 
 ### Backend
 
-1. Erstellen Sie eine virtuelle Umgebung:
+1. Create a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # Unter Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-2. Installieren Sie die Abhängigkeiten:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Starten Sie den Backend-Server:
-```bash
-cd backend
-uvicorn main:app --reload
-```
-
 ### Frontend
 
-1. Installieren Sie die Node.js-Abhängigkeiten:
+1. Install Node.js dependencies:
 ```bash
 cd frontend
 npm install
 ```
 
-2. Starten Sie den Frontend-Development-Server:
+## Running the Application
+
+1. Make the start scripts executable:
 ```bash
-npm start
+chmod +x startbackend.sh startfrontend.sh
 ```
 
-## Funktionen
+2. Start the backend server:
+```bash
+./startbackend.sh
+```
+The backend will run on the port specified in `config.env` (default: 2033)
 
-- **Filterung**: Allgemeine und kategoriebasierte Filterung von Dateien
-- **Visualisierung**: Flexible Dateipfad-Visualisierung mit Drag & Drop
-- **Detailansicht**: Detaillierte Informationen zu ausgewählten Dateien
-- **Responsive Design**: Moderne und benutzerfreundliche Oberfläche
+3. In a new terminal, start the frontend:
+```bash
+./startfrontend.sh
+```
+The frontend will run on the port specified in `config.env` (default: 2034)
 
-## Technologie-Stack
+4. Access the application in your browser at `http://localhost:2034`
 
-- Frontend: React, Material-UI, react-beautiful-dnd
-- Backend: FastAPI
-- Styling: Material-UI Theme System
+## Development
+
+- Backend API documentation is available at `http://localhost:2033/docs`
+- The application uses environment variables for configuration, which are loaded from `backend/config.env`
+- Frontend automatically connects to the backend using the configured host and port

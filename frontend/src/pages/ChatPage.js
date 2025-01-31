@@ -115,7 +115,7 @@ function ChatPage() {
         } 
         // Fetch content for text files
         else if (['txt', 'json', 'js', 'py'].includes(fileExtension)) {
-          const response = await axios.get(`http://localhost:8000/api/content`, {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/content`, {
             params: { filepath: currentFile.fullPath }
           });
           setFileContent(response.data);
@@ -151,7 +151,7 @@ function ChatPage() {
     setMessage('');
 
     try {
-      const response = await axios.post('http://localhost:8000/api/chat', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/chat`, {
         message: message,
         fileIds: selectedFilesList.map(file => file.id),
         chatHistory: [...chatHistory, newMessage] // Send updated chat history including the new message
@@ -237,7 +237,7 @@ function ChatPage() {
     
     if (mockPath) {
       const timestamp = new Date().getTime();
-      window.open(`http://localhost:8000/api/content?filepath=${encodeURIComponent(mockPath)}&t=${timestamp}`, '_blank');
+      window.open(`${process.env.REACT_APP_API_URL}/api/content?filepath=${encodeURIComponent(mockPath)}&t=${timestamp}`, '_blank');
     }
   };
 

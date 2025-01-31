@@ -51,7 +51,7 @@ function FileViewer({ filter, visualization, onFileSelect, selectedFiles, onFile
     const fetchFiles = async () => {
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:8000/api/files', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/files`, {
           filter: filter || {}
         });
         const newFiles = response.data;

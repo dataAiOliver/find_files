@@ -5,5 +5,8 @@ set -e
 # we have deafult venv in this ws
 cd backend
 
-echo "Starting Uvicorn server..."
-uvicorn main:app --reload
+# Load environment variables
+source config.env
+
+echo "Starting Uvicorn server on port $BACKEND_PORT..."
+uvicorn main:app --reload --port $BACKEND_PORT --host $BACKEND_HOST

@@ -173,6 +173,8 @@ def get_filter2query(j_filter, path2type):
 
     query = {}
     for k, v in j_filter.items():
+        if k == "":
+            continue
         # we currently mock this. Need to fix later
         if k == "text":
             k = "metadata.infos.rechnungsnummer"
@@ -181,9 +183,9 @@ def get_filter2query(j_filter, path2type):
         if path2type[k] == "str":
             if (v.startswith("*")) and (v.endswith("*")):
                 v_query = {"$regex": v.replace("*", ""), "$options": "i"}
-            elif v.startswith("*"):
-                v_query = {"$regex": "^" + v.replace("*", ""), "$options": "i"}
             elif v.endswith("*"):
+                v_query = {"$regex": "^" + v.replace("*", ""), "$options": "i"}
+            elif v.startswith("*"):
                 v_query = {"$regex": v.replace("*", "") + "$", "$options": "i"}
             else:
                 v_query = v

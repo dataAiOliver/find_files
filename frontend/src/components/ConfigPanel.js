@@ -35,7 +35,7 @@ function ConfigPanel({ onFilterChange, onVisualizationChange, files }) {
   useEffect(() => {
     const fetchKeys = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/categories');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/categories`);
         setAvailableKeys(response.data);
       } catch (error) {
         console.error('Error fetching keys:', error);
@@ -50,7 +50,7 @@ function ConfigPanel({ onFilterChange, onVisualizationChange, files }) {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:8000/api/filter-suggestions?prefix=${inputValue}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/filter-suggestions?prefix=${inputValue}`);
       setSuggestions(response.data);
     } catch (error) {
       console.error('Error getting filter suggestions:', error);
@@ -195,7 +195,7 @@ function ConfigPanel({ onFilterChange, onVisualizationChange, files }) {
         return;
       }
 
-      const response = await axios.post('http://localhost:8000/api/recalculate', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/recalculate`, {
         files: files,
         keys: activeKeys
       });
