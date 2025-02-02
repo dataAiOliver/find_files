@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../../../_projects"
+		},
+		{
+			"path": "../ds_chat"
+		},
+		{
+			"path": "../ds_dashboard"
 		}
 	],
 	"settings": {}
