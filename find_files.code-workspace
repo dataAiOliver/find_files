@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "../ds_dashboard"
+		},
+		{
+			"path": "../agents"
 		}
 	],
 	"settings": {}
